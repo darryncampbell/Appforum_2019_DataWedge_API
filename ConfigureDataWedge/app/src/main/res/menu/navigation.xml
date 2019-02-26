@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/ic_data_wedge"
+        android:title="@string/title_home" />
+
+    <item
+        android:id="@+id/navigation_profiles"
+        android:icon="@drawable/ic_list"
+        android:title="@string/title_profiles" />
+
+    <item
+        android:id="@+id/navigation_scanners"
+        android:icon="@drawable/ic_barcode_scanner_communication"
+        android:title="@string/title_scanners" />
+
+</menu>
