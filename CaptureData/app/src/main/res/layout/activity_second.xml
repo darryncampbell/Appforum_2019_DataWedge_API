@@ -52,4 +52,15 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_shopping_cart_full" />
+
+    <TextView
+        android:id="@+id/txtScannerInfo2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="8dp"
+        android:text="Scanner Info"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/txtActiveProfile2"
+        app:layout_constraintStart_toStartOf="parent" />
 </android.support.constraint.ConstraintLayout>

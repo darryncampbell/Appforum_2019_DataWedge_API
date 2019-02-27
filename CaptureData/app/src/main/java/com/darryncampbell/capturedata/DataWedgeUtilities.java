@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import java.util.ArrayList;
+
 public class DataWedgeUtilities {
     //  DataWedge API
     public static final String ACTION_DATAWEDGE_FROM_6_2 = "com.symbol.datawedge.api.ACTION";
@@ -20,6 +22,7 @@ public class DataWedgeUtilities {
     private static final String EXTRA_SOFTSCANTRIGGER_FROM_6_3 = "com.symbol.datawedge.api.SOFT_SCAN_TRIGGER";
     private static final String EXTRA_SCANNERINPUTPLUGIN_FROM_6_3 = "com.symbol.datawedge.api.SCANNER_INPUT_PLUGIN";
     private static final String EXTRA_SWITCH_SCANNER_EX = "com.symbol.datawedge.api.SWITCH_SCANNER_EX";  //  DW 6.5
+    private static final String EXTRA_GET_CONFIG = "com.symbol.datawedge.api.GET_CONFIG";
 
     public static final String DATAWEDGE_SCAN_ACTION = "com.darryncampbell.datacapture.ACTION";
 
@@ -90,6 +93,20 @@ public class DataWedgeUtilities {
         {
             sendDataWedgeIntentWithExtra(ACTION_DATAWEDGE_FROM_6_2, EXTRA_SWITCH_SCANNER_EX, "INTERNAL_CAMERA", context);
         }
+    }
+
+    public static void GetScannerSetting(Context context, String profileName)
+    {
+        Bundle bMain = new Bundle();
+        bMain.putString("PROFILE_NAME", profileName);
+        Bundle bConfig = new Bundle();
+        ArrayList<String> pluginName = new ArrayList<>();
+        pluginName.add("BARCODE");
+        bConfig.putStringArrayList("PLUGIN_NAME", pluginName);
+        bMain.putBundle("PLUGIN_CONFIG", bConfig);
+        //  This is one example of a config that can be obtained.  The documentation details how
+        //  to obtain the associated applications with a profile or the current scanner status
+        sendDataWedgeIntentWithExtra(ACTION_DATAWEDGE_FROM_6_2, EXTRA_GET_CONFIG, bMain, context);
     }
 
     private static void sendDataWedgeIntentWithExtra(String action, String extraKey, String extraValue, Context context)

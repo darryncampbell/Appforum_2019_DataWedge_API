@@ -55,7 +55,7 @@ public class DataWedgeUtilities {
 
     public static void SetProfileConfig(String profileName, String packageName, String activityName,
                                         String ean8, String ean13, String code39, String code128, String picklist,
-                                        Context context) {
+                                        boolean setBDF, Context context) {
         Bundle profileConfig = new Bundle();
         profileConfig.putString("PROFILE_NAME", profileName);
         profileConfig.putString("PROFILE_ENABLED", "true");
@@ -94,6 +94,22 @@ public class DataWedgeUtilities {
         intentConfig.putBundle("PARAM_LIST", intentProps);
         profileConfig.putBundle("PLUGIN_CONFIG", intentConfig);
         sendDataWedgeIntentWithExtra(ACTION_DATAWEDGE_FROM_6_2, EXTRA_SET_CONFIG, profileConfig, context);
+
+        if (setBDF)
+        {
+            //  Set Basic Data formatting
+            Bundle bdfConfig = new Bundle();
+            bdfConfig.putString("PLUGIN_NAME", "BDF");
+            bdfConfig.putString("RESET_CONFIG", "true");
+            bdfConfig.putString("OUTPUT_PLUGIN_NAME", "INTENT");
+            Bundle bdfProps = new Bundle();
+            bdfProps.putString("bdf_enabled", "true");
+            bdfProps.putString("bdf_prefix", "x");
+            bdfConfig.putBundle("PARAM_LIST", bdfProps);
+            profileConfig.putBundle("PLUGIN_CONFIG", bdfConfig);
+            sendDataWedgeIntentWithExtra(ACTION_DATAWEDGE_FROM_6_2, EXTRA_SET_CONFIG, profileConfig, context);
+        }
+
     }
 
     public static void CloneProfile(String[] profilesBeingCloned, Context context) {

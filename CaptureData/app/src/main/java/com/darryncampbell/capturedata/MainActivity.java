@@ -4,23 +4,20 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import static com.darryncampbell.capturedata.DataWedgeUtilities.DATAWEDGE_SCAN_ACTION;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, View.OnTouchListener {
+
+    //  todo - GET_CONFIG to retrieve information about the selected scanner
 
     private ImageButton btnMuteScanner;
     private ImageButton btnSwitchScanner;
@@ -33,7 +30,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView txtBarcode;
     private TextView txtScanningStatus;
     private TextView txtActiveProfile;
+    private TextView txtScannerInfo;
     IntentFilter filter = new IntentFilter();
+    private String mProfileName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,12 +51,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtBarcode = findViewById(R.id.txtBarcode);
         txtScanningStatus = findViewById(R.id.txtScanningStatus);
         txtActiveProfile = findViewById(R.id.txtActiveProfile);
+        txtScannerInfo = findViewById(R.id.txtScannerInfo);
+        mProfileName = "not initialised";
 
         filter.addAction(DataWedgeUtilities.ACTION_RESULT_DATAWEDGE_FROM_6_2);//  DW 6.2
         filter.addAction(DataWedgeUtilities.ACTION_RESULT_NOTIFICATION);      //  DW 6.3 for notifications
         filter.addAction(DATAWEDGE_SCAN_ACTION);
         filter.addCategory(Intent.CATEGORY_DEFAULT);    //  NOTE: this IS REQUIRED for DW6.2 and up!
-
     }
 
     @Override
@@ -69,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         DataWedgeUtilities.GetActiveProfile(this);
         DataWedgeUtilities.GetScannerStatus(this);
         DataWedgeUtilities.RegisterForNotification(this, getPackageName());
+
     }
 
     @Override
@@ -145,6 +146,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         private static final String EXTRA_RESULT_GET_SCANNER_STATUS = "com.symbol.datawedge.api.RESULT_SCANNER_STATUS";
         private static final String ACTION_RESULT_NOTIFICATION = "com.symbol.datawedge.api.NOTIFICATION_ACTION";
         private static final String EXTRA_RESULT_NOTIFICATION = "com.symbol.datawedge.api.NOTIFICATION";
+        private static final String EXTRA_RESULT_GET_CONFIG = "com.symbol.datawedge.api.RESULT_GET_CONFIG";
 
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -159,11 +161,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 {
                     String activeProfile = intent.getStringExtra(EXTRA_RESULT_GET_ACTIVE_PROFILE);
                     txtActiveProfile.setText("Profile: " + activeProfile);
+                    mProfileName = activeProfile;
+                    DataWedgeUtilities.GetScannerSetting(getApplicationContext(), mProfileName);
                 }
                 else if (intent.hasExtra(EXTRA_RESULT_GET_SCANNER_STATUS))
                 {
                     String scannerStatus = intent.getStringExtra(EXTRA_RESULT_GET_SCANNER_STATUS);
                     txtScanningStatus.setText(scannerStatus);
+                }
+                else if (intent.hasExtra(EXTRA_RESULT_GET_CONFIG))
+                {
+                    //  Only returns the actual profile data, not the temporary profile data
+                    Bundle result = intent.getBundleExtra(EXTRA_RESULT_GET_CONFIG);
+                    ArrayList<Bundle> pluginConfig = result.getParcelableArrayList("PLUGIN_CONFIG");
+                    //  In the call to Get_Config we only requested the barcode plugin config (which will be index 0)
+                    Bundle barcodeProps = pluginConfig.get(0).getBundle("PARAM_LIST");
+                    String ean13IsEnabled = barcodeProps.getString("decoder_ean13");
+                    String userFriendlyText = "EAN13 is enabled? " + ean13IsEnabled;
+                    txtScannerInfo.setText(userFriendlyText);
                 }
             }
             else if (action.equals(ACTION_RESULT_NOTIFICATION))

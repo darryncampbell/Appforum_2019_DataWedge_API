@@ -319,7 +319,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             DataWedgeUtilities.CreateProfile(profileNameActivity1, getApplicationContext());
 
             DataWedgeUtilities.SetProfileConfig(profileNameActivity1, "com.darryncampbell.capturedata",
-                    ".MainActivity", "true", "true", "false", "false", "0",this);
+                    ".MainActivity", "true", "true", "false", "false",
+                    "0",false, this);
 
             //  Clone the profile for the data capture application
             String[] profilesBeingCloned = {profileNameActivity1, "cloned_profile"};
@@ -331,7 +332,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             //  todo do some BDF on the data (optionally).  e.g. ignore the first character
             DataWedgeUtilities.SetProfileConfig(profileNameActivity2, "com.darryncampbell.capturedata",
-                    ".SecondActivity", "false", "false", "true", "true", "2", this);
+                    ".SecondActivity", "false", "false", "true", "true",
+                    "2", true, this);
 
             DataWedgeUtilities.GetProfilesList(getApplicationContext());
             Toast.makeText(getApplicationContext(), "DataWedge profiles have now been created", Toast.LENGTH_SHORT).show();
