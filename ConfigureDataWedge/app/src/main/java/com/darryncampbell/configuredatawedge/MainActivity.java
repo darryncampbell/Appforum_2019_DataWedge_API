@@ -190,7 +190,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             if (result_code != null)
                                 info = " - " + result_code;
                         }
-                        textViewLastCallResult.setText(formattedCommand + ":\n " + result + info);
+                        textViewLastCallResult.setText(formattedCommand + ": " + result + info);
 
 /*                        switch(command)
                         {
