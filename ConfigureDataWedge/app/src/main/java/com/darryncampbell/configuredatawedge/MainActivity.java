@@ -144,7 +144,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //  Receive messages from DataWedge
         IntentFilter filter = new IntentFilter();
         filter.addAction(ACTION_RESULT_DATAWEDGE_FROM_6_2);//  DW 6.2
-        filter.addAction(ACTION_RESULT_NOTIFICATION);      //  DW 6.3 for notifications
         filter.addCategory(Intent.CATEGORY_DEFAULT);    //  NOTE: this IS REQUIRED for DW6.2 and up!
         registerReceiver(myBroadcastReceiver, filter);
 

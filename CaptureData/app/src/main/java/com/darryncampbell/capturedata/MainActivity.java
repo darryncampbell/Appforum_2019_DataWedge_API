@@ -17,8 +17,6 @@ import static com.darryncampbell.capturedata.DataWedgeUtilities.DATAWEDGE_SCAN_A
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, View.OnTouchListener {
 
-    //  todo - GET_CONFIG to retrieve information about the selected scanner
-
     private ImageButton btnMuteScanner;
     private ImageButton btnSwitchScanner;
     private ImageButton btnDisableScanner;
