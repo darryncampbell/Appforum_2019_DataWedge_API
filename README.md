@@ -1,4 +1,8 @@
-# Appforum_2019_DataWedge_API
-Sample app(s) related to AppForum 2019
+# Appforum 2019: DataWedge API
 
-Developed on a device running DW 6.8
+*These applications are provided without guarantee or warranty*
+=========================================================
+
+This repository contains Sample app(s) and files related to the DataWedge API presentation given at AppForum 2019
+
+Note that these were developed on a device running DW version 6.8
