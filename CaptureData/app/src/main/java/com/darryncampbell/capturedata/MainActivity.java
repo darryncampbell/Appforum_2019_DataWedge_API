@@ -167,7 +167,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     String scannerStatus = intent.getStringExtra(EXTRA_RESULT_GET_SCANNER_STATUS);
                     txtScanningStatus.setText(scannerStatus);
                 }
-                else if (intent.hasExtra(EXTRA_RESULT_GET_CONFIG))
+                else if (intent.hasExtra(EXTRA_RESULT_GET_CONFIG) && intent.hasExtra("PLUGIN_CONFIG"))
                 {
                     //  Only returns the actual profile data, not the temporary profile data
                     Bundle result = intent.getBundleExtra(EXTRA_RESULT_GET_CONFIG);
