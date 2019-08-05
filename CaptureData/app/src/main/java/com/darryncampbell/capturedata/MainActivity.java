@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
@@ -149,6 +150,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
+            Bundle b = intent.getExtras();
+            //  This is useful for debugging to verify the format of received intents from DataWedge
+            for (String key : b.keySet())
+            {
+                Log.v("DWCapture", key);
+            }
             if (action.equals(DATAWEDGE_SCAN_ACTION))
             {
                 txtBarcode.setText(intent.getStringExtra("com.symbol.datawedge.data_string"));
@@ -167,7 +174,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     String scannerStatus = intent.getStringExtra(EXTRA_RESULT_GET_SCANNER_STATUS);
                     txtScanningStatus.setText(scannerStatus);
                 }
-                else if (intent.hasExtra(EXTRA_RESULT_GET_CONFIG) && intent.hasExtra("PLUGIN_CONFIG"))
+                else if (intent.hasExtra(EXTRA_RESULT_GET_CONFIG))
                 {
                     //  Only returns the actual profile data, not the temporary profile data
                     Bundle result = intent.getBundleExtra(EXTRA_RESULT_GET_CONFIG);
